@@ -27,7 +27,7 @@ function IceCreamContainer() {
 
         <Grid item xs={12}>
           <Box mt={12} className={classes.center}>
-            <h2>Number of cakes - {numOfIceCream}</h2>
+            <h2>Number of IceCream - {numOfIceCream}</h2>
           </Box>
         </Grid>
 

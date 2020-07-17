@@ -1,10 +1,11 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import { buyCake } from '../redux'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import { buyIceCream, buyCake } from '../redux'
+import Button from '@material-ui/core/Button'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,15 +16,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function CakeContainer(props) {
+function ItemContainer(props) {
   const classes = useStyles()
   return (
     <div>
       <Grid container>
-
         <Grid item xs={12}>
           <Box mt={12} className={classes.center}>
-            <h2>Number of cakes - {props.numOfCakes}</h2>
+            <h2>Number of {props.item}</h2>
           </Box>
         </Grid>
 
@@ -33,28 +33,39 @@ function CakeContainer(props) {
               variant="contained" 
               color="secondary"
               className={classes.button}
-              onClick = {props.buyCake}
+              onClick = {props.buyItem}
             >
-                Buy Cakes
+                Buy {props.item} Cakes
             </Button>
           </Box>
         </Grid>
-        
+
       </Grid>
     </div>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+
+  const itemState = ownProps.cake 
+  ? state.cake.numOfCakes
+  : state.iceCream.numOfIceCream 
+
   return {
-    numOfCakes: state.cake.numOfCakes
+    item: itemState
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const dispatchFunction = ownProps.cake
+  ? () => dispatch(buyCake())
+  : () => dispatch(buyIceCream())
+
   return {
-    buyCake: () => dispatch(buyCake())
+    buyItem: dispatchFunction
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CakeContainer)
+// export default connect(null, mapDispatchToProps)(ItemContainer)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemContainer)
