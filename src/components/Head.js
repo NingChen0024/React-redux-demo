@@ -17,6 +17,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import Grid from '@material-ui/core/Grid'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -29,7 +36,9 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    background : '#2E3B55'
+    background: '#fdc830', /* fallback for old browsers */
+    background: '-webkit-linear-gradient(to right, #fdc830, #f37335)', /* Chrome 10-25, Safari 5.1-6 */
+    background: 'linear-gradient(to right, #fdc830, #f37335)' 
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -41,9 +50,6 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
-  },
-  icon: {
-    float: "right"
   },
   hide: {
     display: "none"
@@ -63,21 +69,9 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-start"
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    marginRight: -drawerWidth
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    }),
-    marginRight: 0
+  link: {
+    textDecoration: 'none',
+    color: theme.palette.text.primary
   }
 }));
 
@@ -97,28 +91,45 @@ export default function PersistentDrawerRight() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open
-        })}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
-            React-redux-demo
-          </Typography>
-          <IconButton
-            className={classes.icon}
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerOpen}
-            className={clsx(open && classes.hide)}
+        
+          <AppBar
+            position="fixed"
+            className={clsx(classes.appBar, {
+              [classes.appBarShift]: open
+            })}
           >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            <Toolbar>
+              
+              <Typography variant="h6" noWrap className={classes.title}>
+                React-redux-demo
+              </Typography>
+          
+              <IconButton 
+                className={classes.icon}
+                color="inherit"
+              >
+                <InboxIcon /> 
+              </IconButton>
+
+              <IconButton 
+                className={classes.icon}
+                color="inherit"
+              >
+                <InboxIcon /> 
+              </IconButton>
+
+              <IconButton
+                className={classes.icon}
+                color="inherit"
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerOpen}
+                className={clsx(open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -139,26 +150,35 @@ export default function PersistentDrawerRight() {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          <Link to="/" className={classes.link}>
+            <ListItem button >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InboxIcon /> 
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary='newCake' />
             </ListItem>
-          ))}
+          </Link>
+
+          <Link to="/cake" className={classes.link}>
+            <ListItem button >
+              <ListItemIcon>
+                <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary='cake' />
+            </ListItem>
+          </Link>
+
+          <Link to="/user" className={classes.link}>
+          <ListItem button >
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary='user' />
+          </ListItem>
+          </Link>
+
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
     </div>
   );

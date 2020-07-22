@@ -9,17 +9,31 @@ import IceCreamContainer from './components/IceCreamContainer'
 import NewCakeContainer from './components/NewCakeContainer'
 import ItemContainer from './components/ItemContainer';
 import UserContainer from './components/UserContainer';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 
 function App() {
   return (
     <Provider store = {store}>
       <div>
         <Head/>
-        <NewCakeContainer/>
-        <CakeContainer/>
-        {/* <ItemContainer cake/>
-        <ItemContainer/> */}
-        <UserContainer/>
+        <Switch>
+          <Route exact path="/">
+            <NewCakeContainer/>
+          </Route>
+
+          <Route exact path="/cake">
+            <CakeContainer/>
+          </Route>
+          {/* <ItemContainer cake/>
+          <ItemContainer/> */}
+          <Route exact path="/user">
+            <UserContainer/>
+          </Route>
+        </Switch>
       </div>
     </Provider>
   );

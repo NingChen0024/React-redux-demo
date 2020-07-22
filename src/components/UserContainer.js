@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import { fetchUsers } from '../redux'
 import { postUsers } from '../redux'
 import { useSelector, useDispatch } from 'react-redux'
+import { orange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
   center: {
     textAlign: 'center',
+  },
+  color: {
+    color: orange[500],
   }
 }))
 
@@ -68,6 +72,7 @@ function UserContainer() {
         </Grid>
 
         <Grid item xs={6} className={classes.center}>
+          <Box mt={6} className={classes.center}>
           <form className={classes.root} noValidate autoComplete="off">
             <Grid item >
                 <TextField 
@@ -100,7 +105,7 @@ function UserContainer() {
                 <Button 
                 variant="contained" 
                 color="secondary"
-                className={classes.button}
+                
                 onClick = {() => setClick(prevCount => !prevCount)}
               >
                   Post
@@ -110,8 +115,9 @@ function UserContainer() {
 
             <h2>{resp}</h2>
             </form>
+            </Box>
         </Grid>
-
+        
       </Grid>
      
     </div>
